@@ -8,6 +8,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.pubsub.AccessModel;
 import org.jivesoftware.smackx.pubsub.ConfigureForm;
 import org.jivesoftware.smackx.pubsub.FormType;
+import org.jivesoftware.smackx.pubsub.Item;
 import org.jivesoftware.smackx.pubsub.LeafNode;
 import org.jivesoftware.smackx.pubsub.PayloadItem;
 import org.jivesoftware.smackx.pubsub.PubSubManager;
@@ -24,12 +25,13 @@ public class Publisher {
         connection = new XMPPConnection(config);
         pubSubManager = new PubSubManager(connection);
 
-        XMPPConnection.DEBUG_ENABLED = true;
+
     }
 
     protected void login(String userName, String password) throws XMPPException {
-
+        
         connection.connect();
+        
         System.out.println("Is it connected? " + connection.isConnected());
         System.out.println("Is it authenticated? " + connection.isAuthenticated());
         connection.login(userName, password);
@@ -38,10 +40,11 @@ public class Publisher {
 
     public void publish() throws XMPPException {
 
-        SimplePayload payload = new SimplePayload("musica", "pubsub:test:music", "Coldplay");
+        SimplePayload payload = new SimplePayload("Gladiator", "Peliculas", "Es una pelicula sobre un gladiador");
 
         PayloadItem<SimplePayload> payloadItem = new PayloadItem<SimplePayload>(null, payload);
         ((LeafNode) pubSubManager.getNode("Musica")).publish(payloadItem);
+
     }
 
     public void addNode(String nodeName) throws XMPPException {
@@ -64,7 +67,7 @@ public class Publisher {
             pubSubManager.getNode(nodeName);
             return true;
         } catch (XMPPException ex) {
-            System.out.println("El nodo" + nodeName + "no existe");
+            System.out.println("El nodo" + nodeName + " no existe");
             return false;
         }
     }
