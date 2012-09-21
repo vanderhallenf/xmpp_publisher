@@ -1,6 +1,6 @@
-xmpp_publisher
-==============
+El Oyente
+=========
 
-This project delivers a command line tool which is capable of publishing
-arbitrary XMPP events.  This tool can be used for functional testing
-of applications which subscribe to XMPP events.
+This project delivers a Jenkins plugin which adds job triggering based on
+XMPP events.  See http://xmpp.org/extensions/xep-0060.html for more details
+about the PubSub extension of XMPP.
