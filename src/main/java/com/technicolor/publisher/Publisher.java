@@ -23,7 +23,7 @@ public class Publisher {
 		ConnectionConfiguration config = new ConnectionConfiguration("cplx129.edegem.eu.thmulti.com");
 		connection = new XMPPConnection(config);
 		connection.connect();
-		System.out.println("Is it conected? " + connection.isConnected());
+		System.out.println("Is it connected? " + connection.isConnected());
 		System.out.println("Is it authenticated? " + connection.isAuthenticated());
 		connection.login(userName, password);
 		System.out.println("Is it authenticated? " + connection.isAuthenticated());
@@ -48,12 +48,6 @@ public class Publisher {
 
 	}
 
-	public static void main(String[] args) throws XMPPException {		
 
-		Publisher publisher = new Publisher();
-		publisher.login("admin","oyente");
-		publisher.configure();
-
-	}
 
 }
