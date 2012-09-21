@@ -42,7 +42,7 @@
               <configuration>
                   <archive>
                       <manifest>
-                          <mainClass>com.technicolor.publisher.Publisher</mainClass>
+                          <mainClass>com.technicolor.publisher.Main</mainClass>
                       </manifest>
                   </archive>
               </configuration>
