@@ -1,0 +1,6 @@
+xmpp_publisher
+==============
+
+This project delivers a command line tool which is capable of publishing
+arbitrary XMPP events.  This tool can be used for functional testing
+of applications which subscribe to XMPP events.
