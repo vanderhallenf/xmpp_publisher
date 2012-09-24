@@ -1,14 +1,12 @@
 package com.technicolor.publisher;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Iterator;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.pubsub.AccessModel;
 import org.jivesoftware.smackx.pubsub.ConfigureForm;
 import org.jivesoftware.smackx.pubsub.FormType;
-import org.jivesoftware.smackx.pubsub.Item;
 import org.jivesoftware.smackx.pubsub.LeafNode;
 import org.jivesoftware.smackx.pubsub.PayloadItem;
 import org.jivesoftware.smackx.pubsub.PubSubManager;
@@ -40,26 +38,27 @@ public class Publisher {
 
     public void publish() throws XMPPException {
 
-//        SimplePayload payload = new SimplePayload("Gladiator", "Peliculas", "Es una pelicula sobre un gladiador");
-//
+
         
-         SimplePayload payload = new SimplePayload("book","pubsub:test:book", "<book xmlns='pubsub:test:book'><title>Lord of the Rings</title></book>");
+         SimplePayload payload = new SimplePayload("book",null, "<book xmlns='pubsub:book'><title>1984</title></book>");
         PayloadItem<SimplePayload> payloadItem = new PayloadItem<SimplePayload>(null, payload);
-         ((LeafNode) pubSubManager.getNode("Musica")).publish(payloadItem);
+         ((LeafNode) pubSubManager.getNode("Nodo1")).publish(payloadItem);
         
-        
-//        Item item = new Item("Kill Bill");
-//        ((LeafNode)pubSubManager.getNode("Peliculas")).publish(item);
-        
-             
-       System.out.println(((LeafNode) pubSubManager.getNode("Peliculas")).getItems().size());
+         
+         
+    
+             Iterator it = (((LeafNode) pubSubManager.getNode("Nodo1")).getItems()).iterator();
+             while (it.hasNext()){
+                 System.out.println(it.next());
+             }
+       
 
     }
 
     public void addNode(String nodeName) throws XMPPException {
         if (!existNode(nodeName)) {
             ConfigureForm form = new ConfigureForm(FormType.submit);
-            form.setPersistentItems(false);
+            form.setPersistentItems(true);
             form.setDeliverPayloads(true);
             form.setNotifyDelete(true);
             form.setNotifyRetract(true);

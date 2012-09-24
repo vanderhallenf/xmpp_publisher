@@ -10,11 +10,8 @@ public class Main {
         XMPPConnection.DEBUG_ENABLED = true;
         Publisher publisher = new Publisher();
         publisher.login("admin", "oyente");
-        //publisher.addNode("Mua");
+        //publisher.addNode("");
         publisher.publish();
-       
- 
-        //publisher.configure();
-
+      
     }
 }
