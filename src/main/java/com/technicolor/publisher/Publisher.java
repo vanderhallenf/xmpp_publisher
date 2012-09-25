@@ -23,9 +23,9 @@ public class Publisher {
         con.login(username, password);
     }
 
-    public void addNode() throws XMPPException {
+    public void addNode(String nodeName) throws XMPPException {
         mgr = new PubSubManager(con);
-        LeafNode leaf = mgr.createNode("testNode");
+        LeafNode leaf = mgr.createNode(nodeName);
         ConfigureForm form = new ConfigureForm(FormType.submit);
         form.setAccessModel(AccessModel.open);
         form.setDeliverPayloads(false);
@@ -38,10 +38,10 @@ public class Publisher {
         leaf.sendConfigurationForm(form);
     }
 
-    public void publish() throws XMPPException {
+    public void publish(String nodeName, String toBePublished) throws XMPPException {
         mgr = new PubSubManager(con);
-        LeafNode node = (LeafNode) mgr.getNode("testNode");
-        node.send(new PayloadItem("test6" + System.currentTimeMillis(), new SimplePayload("book", "pubsub:test6:book", "")));
+        LeafNode node = (LeafNode) mgr.getNode(nodeName);
+        node.send(new PayloadItem(toBePublished + System.currentTimeMillis(), new SimplePayload("book", "pubsub:"+ toBePublished+":book", "")));
     }
 
     public boolean existNode(String nodeName) {
@@ -52,6 +52,11 @@ public class Publisher {
             System.out.println("El nodo" + nodeName + " no existe");
             return false;
         }
+    }
+
+    protected void deleteNode(String nodeName) throws XMPPException {
+        PubSubManager mgr = new PubSubManager(con);
+        mgr.deleteNode(nodeName);
     }
 
     public void logout() {

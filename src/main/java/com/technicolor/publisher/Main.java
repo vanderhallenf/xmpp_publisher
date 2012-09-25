@@ -11,7 +11,9 @@ public class Main {
         Publisher publisher = new Publisher();
         publisher.login("admin", "oyente");
         
-        //publisher.addNode();
-        publisher.publish();
+        publisher.addNode("Node1");
+        publisher.publish("Node1", "libro");
+
+        
     }
 }
