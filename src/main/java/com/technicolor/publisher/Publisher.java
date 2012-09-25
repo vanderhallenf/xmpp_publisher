@@ -34,7 +34,6 @@ public class Publisher {
         form.setPublishModel(PublishModel.open);
         form.setSubscribe(true);
         form.setPresenceBasedDelivery(false);
-        
 
         leaf.sendConfigurationForm(form);
     }
@@ -42,7 +41,7 @@ public class Publisher {
     public void publish(String nodeName, String toBePublished) throws XMPPException {
         mgr = new PubSubManager(con);
         LeafNode node = (LeafNode) mgr.getNode(nodeName);
-        node.send(new PayloadItem(toBePublished +"_"+ System.currentTimeMillis(), new SimplePayload("book", "pubsub:"+ toBePublished+":book", "<book>Hola</book>")));
+        node.send(new PayloadItem(toBePublished + "_" + System.currentTimeMillis(), new SimplePayload("book2", "pubsub:" + toBePublished + ":book", "<book>Trainspotting27bjh3338</book>")));
     }
 
     public boolean existNode(String nodeName) {

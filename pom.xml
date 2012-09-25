@@ -36,6 +36,11 @@
             <artifactId>smackx-debug</artifactId>
             <version>3.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
