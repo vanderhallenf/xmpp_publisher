@@ -28,12 +28,13 @@ public class Publisher {
         LeafNode leaf = mgr.createNode(nodeName);
         ConfigureForm form = new ConfigureForm(FormType.submit);
         form.setAccessModel(AccessModel.open);
-        form.setDeliverPayloads(false);
+        form.setDeliverPayloads(true);
         form.setNotifyRetract(true);
         form.setPersistentItems(true);
         form.setPublishModel(PublishModel.open);
         form.setSubscribe(true);
         form.setPresenceBasedDelivery(false);
+        
 
         leaf.sendConfigurationForm(form);
     }
@@ -41,7 +42,7 @@ public class Publisher {
     public void publish(String nodeName, String toBePublished) throws XMPPException {
         mgr = new PubSubManager(con);
         LeafNode node = (LeafNode) mgr.getNode(nodeName);
-        node.send(new PayloadItem(toBePublished + System.currentTimeMillis(), new SimplePayload("book", "pubsub:"+ toBePublished+":book", "")));
+        node.send(new PayloadItem(toBePublished +"_"+ System.currentTimeMillis(), new SimplePayload("book", "pubsub:"+ toBePublished+":book", "<book>Hola</book>")));
     }
 
     public boolean existNode(String nodeName) {
