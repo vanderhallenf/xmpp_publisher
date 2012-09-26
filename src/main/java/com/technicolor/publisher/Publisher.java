@@ -1,5 +1,6 @@
 package com.technicolor.publisher;
 
+import java.util.List;
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
@@ -34,6 +35,7 @@ public class Publisher {
         form.setPublishModel(PublishModel.open);
         form.setSubscribe(true);
         form.setPresenceBasedDelivery(false);
+        form.setPresenceBasedDelivery(false);
 
         leaf.sendConfigurationForm(form);
     }
@@ -41,7 +43,7 @@ public class Publisher {
     public void publish(String nodeName, String toBePublished) throws XMPPException {
         mgr = new PubSubManager(con);
         LeafNode node = (LeafNode) mgr.getNode(nodeName);
-        node.send(new PayloadItem(toBePublished + "_" + System.currentTimeMillis(), new SimplePayload("book2", "pubsub:" + toBePublished + ":book", "<book>Trainspotting27bjh3338</book>")));
+        node.send(new PayloadItem(toBePublished + "_" + System.currentTimeMillis(), new SimplePayload("book3", "pubsub:" + toBePublished + ":book", "<book>Human Resources</book>")));
     }
 
     public boolean existNode(String nodeName) {
@@ -61,5 +63,19 @@ public class Publisher {
 
     public void logout() {
         con.disconnect();
+    }
+
+    public void getSubscriptions() {
+        try {
+            PubSubManager manager = new PubSubManager(con);
+            List<Subscription> listSubs = manager.getSubscriptions();
+            for (int i = 0; i < listSubs.size(); i++) {
+                System.out.println(listSubs.get(i).getId());
+                System.out.println(listSubs.get(i).getJid());
+                System.out.println(listSubs.get(i).toXML());
+            }
+        } catch (XMPPException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
