@@ -1,63 +1,97 @@
 package com.technicolor.publisher;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smackx.packet.DiscoverItems;
 import org.jivesoftware.smackx.pubsub.*;
 
 public class Publisher {
 
-    PubSubManager mgr;
-    Connection con;
+    private final Connection con;
+    private final PubSubManager mgr;
+    private final String jid;
+    private final Map<String, Subscription> nodesRegistered;
 
-    public void Publisher() {
-        con = null;
-        mgr = null;
-    }
+    public Publisher(String server, String user, String pass) throws XMPPException {
 
-    public void login(String username, String password) throws XMPPException {
-        ConnectionConfiguration config = new ConnectionConfiguration("cplx129.edegem.eu.thmulti.com");
+
+        System.out.println("Conneting to " + server);
+        ConnectionConfiguration config = new ConnectionConfiguration(server);
         con = new XMPPConnection(config);
         con.connect();
-        con.login(username, password);
-    }
+        System.out.println("Login as " + user);
+        con.login(user, pass);
+        jid = con.getUser();
+        System.out.println("JID: " + jid);
 
-    public void addNode(String nodeName) throws XMPPException {
         mgr = new PubSubManager(con);
-        LeafNode leaf = mgr.createNode(nodeName);
-        ConfigureForm form = new ConfigureForm(FormType.submit);
-        form.setAccessModel(AccessModel.open);
-        form.setDeliverPayloads(true);
-        form.setNotifyRetract(true);
-        form.setPersistentItems(true);
-        form.setPublishModel(PublishModel.open);
-        form.setSubscribe(true);
-        form.setPresenceBasedDelivery(false);
-        form.setPresenceBasedDelivery(false);
+        nodesRegistered = new HashMap<String, Subscription>();
 
-        leaf.sendConfigurationForm(form);
     }
 
-    public void publish(String nodeName, String toBePublished) throws XMPPException {
-        mgr = new PubSubManager(con);
-        LeafNode node = (LeafNode) mgr.getNode(nodeName);
-        node.send(new PayloadItem(toBePublished + "_" + System.currentTimeMillis(), new SimplePayload("book3", "pubsub:" + toBePublished + ":book", "<book>Human Resources</book>")));
-    }
-
-    public boolean existNode(String nodeName) {
-        try {
-            mgr.getNode(nodeName);
-            return true;
-        } catch (XMPPException ex) {
-            System.out.println("El nodo" + nodeName + " no existe");
-            return false;
+    public void checkAndAdd(String nodename) throws XMPPException {
+        DiscoverItems discoverNodes = mgr.discoverNodes(null); //get all nodes
+        Iterator<DiscoverItems.Item> items = discoverNodes.getItems();
+        Map<String, DiscoverItems.Item> nodes = new HashMap<String, DiscoverItems.Item>();
+        while (items.hasNext()) {
+            DiscoverItems.Item item = items.next();
+            nodes.put(item.getNode(), item);
+        }
+        if (nodes.containsKey(nodename)) {
+            System.out.println("Node " + nodename + " already created");
+        } else {
+            System.out.println("Creating node " + nodename);
+            ConfigureForm form = new ConfigureForm(FormType.submit);
+            form.setAccessModel(AccessModel.open);
+            form.setDeliverPayloads(true);
+            form.setNotifyRetract(true);
+            form.setSubscribe(true);
+            form.setPersistentItems(true);
+            form.setPublishModel(PublishModel.open);
+            mgr.createNode(nodename, form);
         }
     }
 
-    protected void deleteNode(String nodeName) throws XMPPException {
-        PubSubManager mgr = new PubSubManager(con);
+    public void send(String nodename) throws XMPPException {
+        checkAndAdd(nodename);
+        System.out.println("Sending (" + jid + ")");
+        // Get the node
+        LeafNode node = (LeafNode) mgr.getNode(nodename);
+
+        // Publish an Item with payload
+        SimplePayload payload = new SimplePayload("book", "pubsub:test:book",
+                "<book xmlns='pubsub:test:book'><title>Lord of the Rings</title></book>");
+        String id = "test" + System.currentTimeMillis();
+        System.out.println("Sending id " + id);
+        PayloadItem<SimplePayload> item = new PayloadItem<SimplePayload>(id, payload);
+        try {
+            Thread.sleep(100); //allow sysout to print
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        node.send(item);
+
+    }
+
+    public void deleteNodes() throws XMPPException {
+        DiscoverItems discoverNodes = mgr.discoverNodes(null);
+        Iterator<DiscoverItems.Item> items = discoverNodes.getItems();
+        while (items.hasNext()) {
+            DiscoverItems.Item item = items.next();
+            System.out.println("ITEM: " + item.getNode() + " -- " + item.toXML());
+            mgr.deleteNode(item.getNode());
+        }
+    }
+
+    public void deleteNode(String nodeName) throws XMPPException {
+        System.out.println("Deleting node: " + nodeName);
         mgr.deleteNode(nodeName);
     }
 
