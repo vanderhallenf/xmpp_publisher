@@ -26,7 +26,7 @@ public class Publisher {
         con = new XMPPConnection(config);
         con.connect();
         System.out.println("Login as " + user);
-        con.login(user, pass);
+        con.login(user, pass, "_"+System.currentTimeMillis());
         jid = con.getUser();
         System.out.println("JID: " + jid);
 
@@ -58,7 +58,7 @@ public class Publisher {
         }
     }
 
-    public void send(String nodename) throws XMPPException {
+    public void send(String nodename, String idToBePublished) throws XMPPException {
         checkAndAdd(nodename);
         System.out.println("Sending (" + jid + ")");
         // Get the node
@@ -67,7 +67,7 @@ public class Publisher {
         // Publish an Item with payload
         SimplePayload payload = new SimplePayload("book", "pubsub:test:book",
                 "<book xmlns='pubsub:test:book'><title>Lord of the Rings</title></book>");
-        String id = "test" + System.currentTimeMillis();
+        String id = idToBePublished + " " + System.currentTimeMillis();
         System.out.println("Sending id " + id);
         PayloadItem<SimplePayload> item = new PayloadItem<SimplePayload>(id, payload);
         try {

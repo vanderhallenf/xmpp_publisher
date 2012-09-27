@@ -12,11 +12,11 @@ public class Main {
         String user = "admin";
         String pwd = "oyente";
         String server = "cplx129.edegem.eu.thmulti.com";
-        String nodeName = "Node1";
+        String nodeName = "Node3";
         Publisher publisher = new Publisher(server,user,pwd);
 
-
-        publisher.checkAndAdd("Node2");
+        //publisher.checkAndAdd("Node2");
+        publisher.send("Node3","Casi naa");
 
     }
 }
