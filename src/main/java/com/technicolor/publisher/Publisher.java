@@ -11,6 +11,8 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.packet.DiscoverItems;
 import org.jivesoftware.smackx.pubsub.*;
 
+//jdbc:hsqldb:/opt/openfire/embedded-db/openfire
+
 public class Publisher {
 
     private final Connection con;
@@ -26,13 +28,12 @@ public class Publisher {
         con = new XMPPConnection(config);
         con.connect();
         System.out.println("Login as " + user);
-        con.login(user, pass, "_"+System.currentTimeMillis());
+        con.login(user, pass);
         jid = con.getUser();
         System.out.println("JID: " + jid);
 
         mgr = new PubSubManager(con);
         nodesRegistered = new HashMap<String, Subscription>();
-
     }
 
     public void checkAndAdd(String nodename) throws XMPPException {

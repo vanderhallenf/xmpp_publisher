@@ -1,6 +1,5 @@
 package com.technicolor.publisher;
 
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 public class Main {
@@ -9,14 +8,21 @@ public class Main {
 
         //XMPPConnection.DEBUG_ENABLED = true;
 
-        String user = "admin";
+        String user = "isabel";
         String pwd = "oyente";
         String server = "cplx129.edegem.eu.thmulti.com";
-        String nodeName = "Node3";
+        String nodeName = "Node4";
         Publisher publisher = new Publisher(server,user,pwd);
 
-        //publisher.checkAndAdd("Node2");
-        publisher.send("Node3","Casi naa");
+        
+        
+        publisher.send("NodeIsabel","Publicacion al nodo isabel");
+        
+        //publisher.deleteNode("Node5");
+        //publisher.deleteNode("NodeFrank");
+        
+        //publisher.checkAndAdd("NodeFrank");
+        
 
     }
 }
