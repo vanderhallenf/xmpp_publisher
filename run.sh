@@ -1,1 +1,1 @@
-java -jar target/uber-Publisher-*.jar $*
+java -jar target/uber-Publisher-*.jar "$@"
