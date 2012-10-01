@@ -2,28 +2,28 @@ xmpp_publisher
 ===============
 
 This project delivers a command line tool which is capable of creating items
-on nodes, in case the node doesn't exist, it'll create it for the user.  This tool 
+on nodes, in case the node doesn't exist, it'll create it for the user.  This tool
 can be used for functional testing of applications which publish XMPP events.
 
 
 Scope
 -----------------------------------
 
-This program allows you to publish to a node that is specified in the 
-arguments and it will create that node in case it is not in the system. 
+This program allows you to publish to a node that is specified in the
+arguments and it will create that node in case it is not in the system.
 
 How to build (Maven required)
 -----------------------------------
-	
+
 	mvn package
 
 
 How to use
 -----------------------------------
 
-	In the target folder:
+	In the source folder:
 
-	java -jar uber-Publisher-1.0.jar -s Server -u User -p Password -n Node -m Message [-n] [-h]
+	./run.sh -s Server -u User -p Password -n Node -m Message [-d] [-h]
 
         Arguments:
         	-s <server>   	URL of the XMPP server
@@ -39,5 +39,5 @@ Limitations
 
 	- Only leaf nodes can be created on the root and no collection nodes.
 	- You can only create one node at a time.
-	- It's not possible to have open sessions with the same user at the 
+	- It's not possible to have open sessions with the same user at the
 	  same time.
