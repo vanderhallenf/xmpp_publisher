@@ -1,6 +1,43 @@
-El Oyente
-=========
+xmpp_publisher
+===============
 
-This project delivers a Jenkins plugin which adds job triggering based on
-XMPP events.  See http://xmpp.org/extensions/xep-0060.html for more details
-about the PubSub extension of XMPP.
+This project delivers a command line tool which is capable of creating items
+on nodes, in case the node doesn't exist, it'll create it for the user.  This tool 
+can be used for functional testing of applications which publish XMPP events.
+
+
+Scope
+-----------------------------------
+
+This program allows you to publish to a node that is specified in the 
+arguments and it will create that node in case it is not in the system. 
+
+How to build (Maven required)
+-----------------------------------
+	
+	mvn package
+
+
+How to use
+-----------------------------------
+
+	In the target folder:
+
+	java -jar uber-Publisher-1.0.jar -s Server -u User -p Password -n Node -m Message [-n] [-h]
+
+        Arguments:
+        	-s <server>   	URL of the XMPP server
+        	-u <username> 	User name to connect to the XMPP server
+	        -p <password> 	Password to connect to the XMPP server
+	        -n <node>     	Name of the node to publish
+	        -m <message>  	Message to publish
+	        -d            	Enable the debugger
+	        -h            	Show this help
+
+Limitations
+-----------------------------------
+
+	- Only leaf nodes can be created on the root and no collection nodes.
+	- You can only create one node at a time.
+	- It's not possible to have open sessions with the same user at the 
+	  same time.
