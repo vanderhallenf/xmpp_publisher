@@ -67,8 +67,8 @@ public class Publisher {
 
         // Publish an Item with payload
         SimplePayload payload = new SimplePayload("book", "pubsub:test:book",
-                "<book xmlns='pubsub:test:book'><title>Lord of the Rings</title></book>");
-        String id = idToBePublished + " " + System.currentTimeMillis();
+                "<book xmlns='pubsub:test:book'><title>"+ idToBePublished + "</title></book>");
+        String id = "Message_" + System.currentTimeMillis();
         System.out.println("Sending id " + id);
         PayloadItem<SimplePayload> item = new PayloadItem<SimplePayload>(id, payload);
         try {
