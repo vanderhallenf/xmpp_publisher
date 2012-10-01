@@ -11,6 +11,8 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.packet.DiscoverItems;
 import org.jivesoftware.smackx.pubsub.*;
 
+//jdbc:hsqldb:/opt/openfire/embedded-db/openfire
+
 public class Publisher {
 
     private final Connection con;
@@ -32,7 +34,6 @@ public class Publisher {
 
         mgr = new PubSubManager(con);
         nodesRegistered = new HashMap<String, Subscription>();
-
     }
 
     public void checkAndAdd(String nodename) throws XMPPException {
@@ -58,7 +59,7 @@ public class Publisher {
         }
     }
 
-    public void send(String nodename) throws XMPPException {
+    public void send(String nodename, String idToBePublished) throws XMPPException {
         checkAndAdd(nodename);
         System.out.println("Sending (" + jid + ")");
         // Get the node
@@ -67,7 +68,7 @@ public class Publisher {
         // Publish an Item with payload
         SimplePayload payload = new SimplePayload("book", "pubsub:test:book",
                 "<book xmlns='pubsub:test:book'><title>Lord of the Rings</title></book>");
-        String id = "test" + System.currentTimeMillis();
+        String id = idToBePublished + " " + System.currentTimeMillis();
         System.out.println("Sending id " + id);
         PayloadItem<SimplePayload> item = new PayloadItem<SimplePayload>(id, payload);
         try {
