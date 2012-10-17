@@ -12,7 +12,6 @@ import org.jivesoftware.smackx.packet.DiscoverItems;
 import org.jivesoftware.smackx.pubsub.*;
 
 //jdbc:hsqldb:/opt/openfire/embedded-db/openfire
-
 public class Publisher {
 
     private final Connection con;
@@ -28,7 +27,17 @@ public class Publisher {
         con = new XMPPConnection(config);
         con.connect();
         System.out.println("Login as " + user);
-        con.login(user, pass);
+        try {
+            try {
+                java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
+                con.login(user, pass, localMachine.getHostName());
+            } catch (java.net.UnknownHostException ex) {
+                con.login(user, pass);
+            }
+        } catch (XMPPException ex) {
+            System.err.println("User or password doesn't exist");
+        }
+
         jid = con.getUser();
         System.out.println("JID: " + jid);
 
@@ -67,7 +76,7 @@ public class Publisher {
 
         // Publish an Item with payload
         SimplePayload payload = new SimplePayload("book", "pubsub:test:book",
-                "<book xmlns='pubsub:test:book'><title>"+ idToBePublished + "</title></book>");
+                "<book xmlns='pubsub:test:book'><title>" + idToBePublished + "</title></book>");
         String id = "Message_" + System.currentTimeMillis();
         System.out.println("Sending id " + id);
         PayloadItem<SimplePayload> item = new PayloadItem<SimplePayload>(id, payload);
