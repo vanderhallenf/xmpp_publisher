@@ -1,5 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2012 Technicolor
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <licenses>
+      <license>
+	<name>The Apache Software License, Version 2.0</name>
+	<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	<distribution>repo</distribution>
+	<comments>A business-friendly OSS license</comments>
+      </license>
+    </licenses>
+    <developers>
+      <developer>
+	<id>isabelFD</id>
+	<name>Isabel Fern&aacute;ndez D&iacute;az</name>
+	<email>isabel.fd@gmail.com</email>
+      </developer>
+      <developer>
+	<id>pardogonzalezj</id>
+	<name>Juan Luis Pardo Gonz&aacute;lez</name>
+	<email>jlpardo87@gmail.com</email>
+      </developer>
+      <developer>
+	<id>vanderhallenf</id>
+	<name>Frank Vanderhallen</name>
+	<email>frank.vanderhallen@gmail.com</email>
+      </developer>
+    </developers>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.technicolor</groupId>
@@ -54,7 +95,7 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>          
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -66,11 +107,11 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>  
+                <configuration>
                     <finalName>uber-${artifactId}-${version}</finalName>
                 </configuration>
             </plugin>
         </plugins>
-    </build>  
-  
+    </build>
+
 </project>
